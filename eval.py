@@ -136,15 +136,19 @@ class TodoEvaluator:
             betas=[config.BETA_HEADER],
         )
 
-        message = runner.get()
+        # Iterate through messages to get final response
+        final_message = None
+        for message in runner:
+            final_message = message
 
         # Extract text
         response_parts = []
-        for block in message.content:
-            if block.type == "text":
-                response_parts.append(block.text)
+        if final_message:
+            for block in final_message.content:
+                if block.type == "text":
+                    response_parts.append(block.text)
 
-        self.messages.append({"role": "assistant", "content": message.content})
+            self.messages.append({"role": "assistant", "content": final_message.content})
 
         return "\n".join(response_parts)
 
