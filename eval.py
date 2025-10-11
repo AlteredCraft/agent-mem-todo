@@ -1,4 +1,48 @@
-"""Evaluation suite for the Agent Memory Todo app."""
+"""Evaluation suite for the Agent Memory Todo app.
+
+This module provides automated testing for the todo agent, validating core
+functionality and observing Claude's autonomous decisions about data organization.
+
+Test Coverage:
+The suite includes 7 test cases covering:
+1. Adding single todos
+2. Listing todos
+3. Updating existing todos
+4. Marking todos as complete
+5. Listing after completion
+6. Adding multiple todos in bulk
+7. Persistence across sessions
+
+Validation Approach:
+Rather than using rigid assertions, tests use LLM-based validation to check if
+Claude's responses demonstrate the expected behavior. This allows for natural
+language variation while ensuring functional correctness.
+
+Memory Structure Analysis:
+After running tests, the suite analyzes the memory directory to observe:
+- File structure Claude chose (single file vs. multiple files)
+- Data format (JSON, plain text, markdown, etc.)
+- Field organization (what metadata Claude tracks)
+- Naming conventions
+
+This analysis provides insights into how Claude naturally organizes data when
+given autonomy, which is a key aspect of the experiment.
+
+Usage:
+    python eval.py
+
+    The suite will:
+    - Run all test cases sequentially
+    - Display pass/fail for each test
+    - Analyze memory structure
+    - Report observations and statistics
+    - Exit with code 0 if all tests pass, 1 otherwise
+
+Environment:
+- Uses a separate ./memories_test directory (cleaned before each run)
+- Requires ANTHROPIC_API_KEY in environment or .env file
+- Can set EVAL_DEBUG=1 for verbose logging during tests
+"""
 
 import json
 import logging

@@ -1,4 +1,38 @@
-"""Main CLI application for the Agent Memory Todo app."""
+"""Main CLI application for the Agent Memory Todo app.
+
+This module provides an interactive command-line interface for managing todos
+through natural language conversations with Claude. The agent uses the memory
+tool to persist todo data across sessions.
+
+Architecture:
+- TodoAgent class manages the conversation loop and API interactions
+- Uses Anthropic's beta tool_runner for automatic tool execution
+- Maintains conversation history for context
+- Processes user input as natural language (no rigid commands)
+
+The application demonstrates an experimental approach to data persistence where:
+1. User expresses intent in natural language ("add task to buy milk")
+2. Claude interprets the intent and decides appropriate memory operations
+3. Memory tool executes filesystem operations
+4. Claude responds with confirmation
+
+Key Features:
+- Pure natural language interface (no commands except /quit)
+- Autonomous data organization by Claude
+- Real-time conversation with tool use
+- Comprehensive DEBUG logging for observability
+- Graceful error handling and user feedback
+
+Usage:
+    python todo_agent.py
+
+    Then interact naturally:
+    You: I need to clean the house today
+    Agent: [stores task and confirms]
+    You: What tasks do I have?
+    Agent: [lists tasks from memory]
+    You: /quit
+"""
 
 import logging
 import sys

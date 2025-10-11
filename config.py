@@ -1,4 +1,18 @@
-"""Configuration for the Agent Memory Todo application."""
+"""Configuration module for the Agent Memory Todo application.
+
+This module provides centralized configuration management for the todo app,
+including environment variable loading, logging setup, and system prompts.
+
+The configuration prioritizes environment variables from a .env file, with
+sensible defaults for development. Key settings include:
+- ANTHROPIC_API_KEY: Required API key for Claude
+- MEMORY_DIR: Directory for storing todo data (default: ./memories)
+- LOG_LEVEL: Logging verbosity (default: DEBUG)
+- MODEL: Claude model to use (default: claude-sonnet-4-20250514)
+
+The system prompt is intentionally capability-focused rather than prescriptive,
+allowing Claude to autonomously decide how to organize todo data in memory.
+"""
 
 import os
 import logging

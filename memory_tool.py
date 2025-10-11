@@ -1,4 +1,27 @@
-"""Memory tool implementation for Claude Agent SDK."""
+"""Memory tool implementation for Claude Agent SDK.
+
+This module provides a local filesystem backend for Claude's memory tool,
+implementing the BetaAbstractMemoryTool interface. The tool allows Claude
+to persistently store and retrieve todo data through file operations.
+
+The implementation supports all standard memory operations:
+- view: List directory contents or read file content
+- create: Create or overwrite files
+- str_replace: Replace text within files
+- insert: Add text at specific line numbers
+- delete: Remove files or directories
+- rename: Move or rename files/directories
+
+Security Features:
+- All operations are restricted to a configured memory directory
+- Path traversal attacks are prevented through validation
+- Comprehensive error handling and logging at DEBUG level
+
+The key insight of this implementation is that it receives command objects
+from the SDK with attributes like `path` and `file_text`, which are then
+executed as filesystem operations. This allows Claude to autonomously decide
+how to organize and structure todo data without prescriptive schemas.
+"""
 
 import logging
 from pathlib import Path
