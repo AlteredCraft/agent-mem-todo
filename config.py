@@ -1,0 +1,81 @@
+"""Configuration for the Agent Memory Todo application."""
+
+import os
+import logging
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Memory storage directory
+MEMORY_DIR = os.getenv("MEMORY_DIR", "./memories")
+
+# Logging configuration
+LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
+
+# Anthropic API configuration
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+
+# Model to use
+MODEL = "claude-sonnet-4-20250514"
+
+# Beta header for memory tool
+BETA_HEADER = "context-management-2025-06-27"
+
+# System prompt - focused on capabilities, not implementation
+SYSTEM_PROMPT = """You are a helpful assistant helping the user to store and recall the tasks they need to accomplish.
+
+When the user mentions tasks they need to do, USE THE MEMORY TOOL to store them persistently. This is critical - always use memory to save tasks.
+
+It's important you remember any tasks the user needs to remember. Ensure you can update the progress on tasks. Ensure you can report the state of a task to the user."""
+
+# Context management configuration (from SDK example)
+CONTEXT_MANAGEMENT = {
+    "edits": [{
+        "type": "clear_tool_uses_20250919",
+        "trigger": {"type": "input_tokens", "value": 30000},
+        "keep": {"type": "tool_uses", "value": 3}
+    }]
+}
+
+
+def setup_logging():
+    """Configure logging for the application."""
+    logging.basicConfig(
+        level=getattr(logging, LOG_LEVEL.upper()),
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+
+
+def validate_config():
+    """Validate configuration and setup required directories."""
+    logger = logging.getLogger(__name__)
+
+    # Check API key
+    if not ANTHROPIC_API_KEY:
+        logger.error("ANTHROPIC_API_KEY not set")
+        raise ValueError(
+            "ANTHROPIC_API_KEY must be set in .env file or environment variable.\n"
+            "Copy dist.env to .env and add your API key.\n"
+            "Get your key at https://console.anthropic.com/"
+        )
+
+    # Create memory directory if it doesn't exist
+    memory_path = Path(MEMORY_DIR)
+    if not memory_path.exists():
+        logger.info(f"Creating memory directory: {memory_path.absolute()}")
+        memory_path.mkdir(parents=True, exist_ok=True)
+    else:
+        logger.debug(f"Using existing memory directory: {memory_path.absolute()}")
+
+    logger.info(f"Configuration validated successfully")
+    logger.debug(f"Memory directory: {memory_path.absolute()}")
+    logger.debug(f"Model: {MODEL}")
+    logger.debug(f"Log level: {LOG_LEVEL}")
+
+
+def get_memory_path() -> Path:
+    """Get the absolute path to the memory directory."""
+    return Path(MEMORY_DIR).absolute()
