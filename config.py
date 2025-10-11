@@ -37,12 +37,25 @@ MODEL = "claude-sonnet-4-20250514"
 # Beta header for memory tool
 BETA_HEADER = "context-management-2025-06-27"
 
-# System prompt - focused on capabilities, not implementation
-SYSTEM_PROMPT = """You are a helpful assistant helping the user to store and recall the tasks they need to accomplish.
+# System prompt template - focused on capabilities, not implementation
+SYSTEM_PROMPT_TEMPLATE = """You are a helpful assistant helping the user to store and recall the tasks they need to accomplish.
+
+Today's date is {current_date}.
 
 When the user mentions tasks they need to do, USE THE MEMORY TOOL to store them persistently. This is critical - always use memory to save tasks.
 
 It's important you remember any tasks the user needs to remember. Ensure you can update the progress on tasks. Ensure you can report the state of a task to the user."""
+
+
+def get_system_prompt() -> str:
+    """Get the system prompt with current date injected.
+
+    Returns:
+        System prompt string with today's date
+    """
+    from datetime import datetime
+    current_date = datetime.now().strftime("%A, %B %d, %Y")
+    return SYSTEM_PROMPT_TEMPLATE.format(current_date=current_date)
 
 # Context management configuration (from SDK example)
 CONTEXT_MANAGEMENT = {

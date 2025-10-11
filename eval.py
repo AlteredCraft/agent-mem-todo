@@ -128,7 +128,7 @@ class TodoEvaluator:
 
         runner = self.client.beta.messages.tool_runner(
             model=config.MODEL,
-            system=config.SYSTEM_PROMPT,
+            system=config.get_system_prompt(),
             messages=self.messages,
             tools=[self.memory_tool],
             context_management=config.CONTEXT_MANAGEMENT,
