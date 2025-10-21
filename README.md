@@ -1,10 +1,11 @@
 # Agent Memory Todo App
 
-An experimental CLI todo application that uses Claude's Memory Tool for persistence instead of a traditional database.
+An experimental CLI todo application that uses [Claude's Memory Tool](https://docs.claude.com/en/docs/agents-and-tools/tool-use/memory-tool) for persistence instead of a traditional database.
+This goals here is strictly to explore, see how Claude aproaches the problem, and learn from the experience.
+We give Claude a minimal system prompt and let it figure out how to organize and store todo data on its own.
+We leverage the [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview) to facilitate this process.
+We want to see if we can reduce code by offloading more responsibility to the LLM (and aligning with the system prompt).
 
-## Concept
-
-This project explores whether LLM memory capabilities can replace traditional database infrastructure for a simple todo application. By leveraging the Claude Agent SDK's memory tool, we let the AI autonomously decide how to organize and persist todo data.
 
 ## The Experiment
 
